@@ -1,44 +1,39 @@
-const firstCounter = new Counter(getElement('.first-counter', 100))
-function Counter(elem, value) {
-    this.counter = elem
-    console.log(value)
-    this.value = value
-    console.log(this.value)
-    this.resetBtn = elem.querySelector('.reset')
-    this.increaseBtn = elem.querySelector('.increase')
-    this.decreaseBtn = elem.querySelector('.decrease')
-    this.valueDOM = elem.querySelector('.value')
-    console.log(this.valueDOM.textContent)
-    this.valueDOM.textContent = this.value;
-    
-}
-function getElement(selection) {
-    const element = document.querySelector(selection)
-    if(element) {
-        console.log(element)
-        return element
-    } else {
-        throw new Error(`Please check "${selection}"`)
+class Counter {
+    constructor(elem, value) {
+        this.counter = elem
+        this.value = value
+        this.increaseBtn = elem.querySelector('.increase')
+        this.resetBtn = elem.querySelector('.reset')
+        this.decreaseBtn = elem.querySelector('.decrease')
+        this.valueDOM = elem.querySelector('.value')
+        this.valueDOM.textContent = this.value
+        this.increaseBtn.addEventListener('click', this.increase.bind(this))
+        this.decreaseBtn.addEventListener('click', this.decrease.bind(this))
+        this.resetBtn.addEventListener('click', this.reset.bind(this))
+    }
+    increase() {
+        console.log(this)
+        this.value++
+        this.valueDOM.textContent = this.value
+        console.log(this)
+    }
+    decrease() {
+        this.value--
+        this.valueDOM.textContent = this.value
+    }
+    reset() {
+        this.value = 0
+        this.valueDOM.textContent = this.value
     }
 }
 
-
-Counter.prototype.increase = function() {
-    console.log(this)
-    this.value++
-    this.valueDOM.textContent = this.value
-}
-Counter.prototype.decrease = function() {
-    this.value--
-    this.valueDOM.textContent = this.value
-}
-Counter.prototype.reset = function() {
-    this.value = 0
-    this.valueDOM = this.value
+function getElement(element) {
+    const elem = document.querySelector(element)
+    if (elem) {
+        return elem 
+    } else {
+        throw new Error('Please check element')
+    }
 }
 
-
-
-
-
-
+let firstCounter = new Counter(getElement('.first-counter'), 100)
